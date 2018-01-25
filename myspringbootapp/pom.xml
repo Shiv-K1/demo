@@ -22,6 +22,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <docker.registry>hub.docker.com</docker.registry>
     </properties>
 
 
@@ -31,7 +32,31 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dockerDirectory>${project.basedir}</dockerDirectory>
+                    <imageName>ricki/${project.artifactId}:${project.version}</imageName>
+                    <newName>docker.io/ricki/${project.artifactId}:${project.version}</newName>
+                    <serverId>docker-hub</serverId>
+                    <pushImage>true</pushImage>
+                </configuration>
+            </plugin>
+
+
         </plugins>
+
     </build>
 
 </project>
